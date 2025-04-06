@@ -1,6 +1,6 @@
 package com.eduardo.softrestaurant.repository;
 
-import com.eduardo.softrestaurant.model.Employee;
+import com.eduardo.softrestaurant.entity.Employee;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

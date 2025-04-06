@@ -1,6 +1,6 @@
 package com.eduardo.softrestaurant.controller;
 
-import com.eduardo.softrestaurant.model.Employee;
+import com.eduardo.softrestaurant.entity.Employee;
 import com.eduardo.softrestaurant.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
