@@ -1,6 +1,6 @@
 package com.eduardo.softrestaurant.service;
 
-import com.eduardo.softrestaurant.model.Employee;
+import com.eduardo.softrestaurant.entity.Employee;
 import com.eduardo.softrestaurant.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,23 +28,24 @@ public class EmployeeService {
     }
 
     public void removeEmployee(Long id) {
-        employeeRepository.deleteById(id);
+        employeeRepository.findById(id)
+                .ifPresentOrElse(
+                        employeeRepository::delete,
+                        () -> {throw new RuntimeException("Employee not found");}
+                );
     }
 
-    public Employee updateEmployee(Long id, Employee employee) {
-        Optional<Employee> optionalEmployee = employeeRepository.findById(id);
+    public Employee updateEmployee(Long id, Employee updateData) {
+        return employeeRepository.findById(id)
+                .map(employee -> {
+                    employee.setFirstName(updateData.getFirstName());
+                    employee.setFirstName(updateData.getFirstName());
+                    employee.setLastName(updateData.getLastName());
+                    employee.setRole(updateData.getRole());
+                    employee.setPassword_hash(updateData.getPassword_hash());
+                    employee.setIsActive(updateData.getIsActive());
+                    return employeeRepository.save(employee);
+                }).orElseThrow(() -> new RuntimeException("Employee not found"));
 
-        if (optionalEmployee.isPresent()) {
-            Employee employeeUpdated = optionalEmployee.get();
-            employeeUpdated.setFirstName(employee.getFirstName());
-            employeeUpdated.setLastName(employee.getLastName());
-            employeeUpdated.setRole(employee.getRole());
-            employeeUpdated.setPassword_hash(employee.getPassword_hash());
-            employeeUpdated.setIsActive(employee.getIsActive());
-
-            return employeeRepository.save(employee);
-        } else {
-            throw new RuntimeException("Employee not found");
-        }
     }
 }

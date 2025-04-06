@@ -1,4 +1,4 @@
-package com.eduardo.softrestaurant.model;
+package com.eduardo.softrestaurant.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
