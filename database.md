@@ -28,14 +28,6 @@ CREATE TABLE menu (
     is_active BOOLEAN DEFAULT TRUE
 );
 
--- Clients (optional, for frequent clients or delivery)
-CREATE TABLE clients (
-    client_id SERIAL PRIMARY KEY,
-    name VARCHAR(100) NOT NULL,
-    phone VARCHAR(20),
-    email VARCHAR(100)
-);
-
 -- Orders
 CREATE TABLE orders (
     order_id SERIAL PRIMARY KEY,

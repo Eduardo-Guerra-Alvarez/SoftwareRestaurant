@@ -17,10 +17,15 @@ public class OrderDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @OneToOne
+
+    @ManyToOne
+    @JoinColumn(name = "order_id")
     private Order order;
-    @OneToOne
+
+    @ManyToOne
+    @JoinColumn(name = "menu_id")
     private Menu menu;
+
     private Integer quantity;
     private Float unit_price;
     private Float subtotal;

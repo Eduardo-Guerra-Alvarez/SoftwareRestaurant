@@ -20,4 +20,8 @@ public class TableRestaurant {
     private Integer table_number;
     private Integer capacity;
     private String status = "available"; // available, occupied, reserved
+
+    @OneToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
 }

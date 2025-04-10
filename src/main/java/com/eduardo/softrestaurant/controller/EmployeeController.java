@@ -1,5 +1,6 @@
 package com.eduardo.softrestaurant.controller;
 
+import com.eduardo.softrestaurant.dao.EmployeeDAO;
 import com.eduardo.softrestaurant.entity.Employee;
 import com.eduardo.softrestaurant.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,14 +9,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/employee")
+@RequestMapping("/api/employees")
 public class EmployeeController {
 
     @Autowired
     private EmployeeService employeeService;
 
     @GetMapping
-    public List<Employee> getEmployees() {
+    public List<EmployeeDAO> getEmployees() {
         return employeeService.getAllEmployees();
     }
 
