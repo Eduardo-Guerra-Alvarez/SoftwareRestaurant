@@ -8,9 +8,10 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
-@Table(name = "order")
+@Table(name = "order_restaurant")
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -21,13 +22,19 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
+    @OneToOne(mappedBy = "order")
     private TableRestaurant tableRestaurant;
-    @OneToOne
+
+    @ManyToOne
+    @JoinColumn(name = "employee_id")
     private Employee employee;
     private String status; // pending, in_progress, delivered, canceled
+
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime created_at;
     private Float total;
+
+    @OneToMany(mappedBy = "order")
+    private List<OrderDetails> orderDetails;
 }

@@ -1,5 +1,6 @@
 package com.eduardo.softrestaurant.service;
 
+import com.eduardo.softrestaurant.dao.EmployeeDAO;
 import com.eduardo.softrestaurant.entity.Employee;
 import com.eduardo.softrestaurant.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class EmployeeService {
@@ -14,8 +16,10 @@ public class EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
-    public List<Employee> getAllEmployees() {
-        return employeeRepository.findAll();
+    public List<EmployeeDAO> getAllEmployees() {
+        return employeeRepository.findAll()
+                .stream()
+                .map(EmployeeDAO::new).collect(Collectors.toList());
     }
 
     public Employee getEmployeeById(Long id) {

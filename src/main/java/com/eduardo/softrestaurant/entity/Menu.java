@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name = "menu")
 @AllArgsConstructor
@@ -21,4 +23,7 @@ public class Menu {
     private Float price;
     private String category; // food, drink, dessert
     private Boolean isActive;
+
+    @OneToMany(mappedBy = "menu")
+    private List<OrderDetails> orderDetails;
 }
