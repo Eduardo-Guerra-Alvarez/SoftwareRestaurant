@@ -41,7 +41,9 @@ public class MenuService {
         menuRepository.findById(id)
                 .ifPresentOrElse(
                         menuRepository::delete,
-                        () -> { new RuntimeException("Menu not found"); }
+                        () -> {
+                            throw new RuntimeException("Menu not found");
+                        }
                 );
     }
 }

@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Entity
 @Table(name="tableRestaurant")
 @AllArgsConstructor
@@ -21,7 +23,6 @@ public class TableRestaurant {
     private Integer capacity;
     private String status = "available"; // available, occupied, reserved
 
-    @OneToOne
-    @JoinColumn(name = "order_id")
-    private Order order;
+    @OneToMany(mappedBy = "tableRestaurant")
+    private List<Order> orders;
 }
