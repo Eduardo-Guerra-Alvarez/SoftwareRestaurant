@@ -1,5 +1,6 @@
 package com.eduardo.softrestaurant.entity;
 
+import com.eduardo.softrestaurant.OrderStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -22,18 +23,21 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(mappedBy = "order")
+    @ManyToOne
+    @JoinColumn(name = "table_id")
     private TableRestaurant tableRestaurant;
 
     @ManyToOne
     @JoinColumn(name = "employee_id")
     private Employee employee;
-    private String status; // pending, in_progress, delivered, canceled
+
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status = OrderStatus.OPEN; // pending, in_progress, delivered, canceled
 
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime created_at;
-    private Float total;
+    private Float total = 0.0F;
 
     @OneToMany(mappedBy = "order")
     private List<OrderDetails> orderDetails;

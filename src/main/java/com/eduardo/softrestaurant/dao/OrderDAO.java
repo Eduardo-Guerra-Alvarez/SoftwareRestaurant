@@ -1,23 +1,25 @@
 package com.eduardo.softrestaurant.dao;
 
-import com.eduardo.softrestaurant.entity.Employee;
+import com.eduardo.softrestaurant.OrderStatus;
 import com.eduardo.softrestaurant.entity.Order;
 import com.eduardo.softrestaurant.entity.OrderDetails;
-import com.eduardo.softrestaurant.entity.TableRestaurant;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Data
+@Getter
+@Setter
 public class OrderDAO {
     private Long id;
-    private TableRestaurant tableRestaurant;
+    private Integer tableRestaurant_number;
     private String employee_name;
-    private String status; // pending, in_progress, delivered, canceled
+    private OrderStatus status; // pending, in_progress, delivered, canceled
     private LocalDateTime created_at;
     private Float total;
-    private List<OrderDetails> orderDetails;
+    private List<OrderDetailsDAO> orderDetails;
 
     public OrderDAO(Order order) {
         this.id = order.getId();
@@ -25,5 +27,9 @@ public class OrderDAO {
         this.created_at = order.getCreated_at();
         this.total = order.getTotal();
         this.employee_name = order.getEmployee().getFirstName();
+        this.tableRestaurant_number = order.getTableRestaurant().getTable_number();
+        this.orderDetails = order.getOrderDetails()
+                .stream()
+                .map(OrderDetailsDAO::new).collect(Collectors.toList());
     }
 }
