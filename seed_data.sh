@@ -1,4 +1,5 @@
 #!/bin/bash
+URL="http://localhost:8080/api"
 
 echo "Creating employees..."
 curl -X POST http://localhost:8080/api/employees \
