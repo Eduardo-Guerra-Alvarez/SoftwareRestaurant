@@ -2,7 +2,7 @@ package com.eduardo.softrestaurant.controller;
 
 import com.eduardo.softrestaurant.dao.CreateOrderRequestDAO;
 import com.eduardo.softrestaurant.dao.OrderDAO;
-import com.eduardo.softrestaurant.entity.Order;
+import com.eduardo.softrestaurant.dao.OrderSimpleDAO;
 import com.eduardo.softrestaurant.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -18,7 +18,7 @@ public class OrderController {
     private OrderService orderService;
 
     @GetMapping
-    public List<OrderDAO> getOrders() {
+    public List<OrderSimpleDAO> getOrders() {
         return orderService.getAllOrder();
     }
 

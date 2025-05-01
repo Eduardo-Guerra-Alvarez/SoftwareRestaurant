@@ -1,17 +1,29 @@
 package com.eduardo.softrestaurant.controller;
 
 import com.eduardo.softrestaurant.dao.OrderDAO;
+import com.eduardo.softrestaurant.dao.OrderDetailsDAO;
 import com.eduardo.softrestaurant.entity.OrderDetails;
-import com.eduardo.softrestaurant.repository.OrderDetailsRepository;
 import com.eduardo.softrestaurant.service.OrderDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/api/orderdetails/")
+@RequestMapping("/api/orderdetails")
 public class OrderDetailsController {
     @Autowired
     private OrderDetailsService orderDetailsService;
+
+    @GetMapping
+    public List<OrderDetailsDAO> getOrdersDetails() {
+        return orderDetailsService.getAllOrdersDetails();
+    }
+
+    @GetMapping("/{id}")
+    public OrderDetailsDAO getOrderDetailById(@PathVariable Long id) {
+        return orderDetailsService.getOrderDetailsById(id);
+    }
 
     @PostMapping("/order/{orderId}/menu/{menuId}")
     public OrderDAO createOrderDetails(@PathVariable Long orderId, @PathVariable Long menuId, @RequestBody OrderDetails orderDetails) {

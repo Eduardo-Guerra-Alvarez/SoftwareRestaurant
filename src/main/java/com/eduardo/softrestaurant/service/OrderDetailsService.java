@@ -1,6 +1,7 @@
 package com.eduardo.softrestaurant.service;
 
 import com.eduardo.softrestaurant.dao.OrderDAO;
+import com.eduardo.softrestaurant.dao.OrderDetailsDAO;
 import com.eduardo.softrestaurant.entity.Menu;
 import com.eduardo.softrestaurant.entity.Order;
 import com.eduardo.softrestaurant.entity.OrderDetails;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderDetailsService {
@@ -23,13 +25,17 @@ public class OrderDetailsService {
     private MenuRepository menuRepository;
 
 
-    public List<OrderDetails> getAllOrdersDetails() {
-        return orderDetailsRepository.findAll();
+    public List<OrderDetailsDAO> getAllOrdersDetails() {
+        return orderDetailsRepository.findAll()
+                .stream()
+                .map(OrderDetailsDAO::new)
+                .collect(Collectors.toList());
     }
 
-    public OrderDetails getOrderDetailsById(Long id) {
-        return orderDetailsRepository.findById(id)
+    public OrderDetailsDAO getOrderDetailsById(Long id) {
+        OrderDetails orderDetail = orderDetailsRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("OrderDetails not found"));
+        return new OrderDetailsDAO(orderDetail);
     }
 
     public OrderDAO createOrderDetails(Long orderId, Long menuId, OrderDetails orderDetails) {
@@ -41,13 +47,13 @@ public class OrderDetailsService {
         if (!menu.getIsActive()) {
             throw new IllegalArgumentException("This menu item is currently inactive");
         }
-
         orderDetails.setMenu(menu);
+        orderDetails.setOrder(order);
         orderDetails.setUnit_price(menu.getPrice());
         orderDetails.setSubtotal(menu.getPrice() * orderDetails.getQuantity());
-        OrderDetails orderDetailsSaved = orderDetailsRepository.save(orderDetails);
-        order.getOrderDetails().add(orderDetailsSaved);
+        order.setTotal(order.getTotal() + orderDetails.getSubtotal());
         orderRepository.save(order);
+        orderDetailsRepository.save(orderDetails);
 
         return new OrderDAO(order);
     }

@@ -2,6 +2,7 @@ package com.eduardo.softrestaurant.service;
 
 import com.eduardo.softrestaurant.dao.CreateOrderRequestDAO;
 import com.eduardo.softrestaurant.dao.OrderDAO;
+import com.eduardo.softrestaurant.dao.OrderSimpleDAO;
 import com.eduardo.softrestaurant.entity.Employee;
 import com.eduardo.softrestaurant.entity.Order;
 import com.eduardo.softrestaurant.entity.TableRestaurant;
@@ -12,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,10 +26,10 @@ public class OrderService {
     @Autowired
     private TableRestaurantRepository tableRestaurantRepository;
 
-    public List<OrderDAO> getAllOrder() {
+    public List<OrderSimpleDAO> getAllOrder() {
         return orderRepository.findAll()
                 .stream()
-                .map(OrderDAO::new).collect(Collectors.toList());
+                .map(OrderSimpleDAO::new).collect(Collectors.toList());
     }
 
     public OrderDAO createOrder(CreateOrderRequestDAO orderRequestDAO) {
