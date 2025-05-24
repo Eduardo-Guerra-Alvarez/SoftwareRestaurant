@@ -1,0 +1,34 @@
+✅ Etapa 1 - Módulo Básico de Restaurante
+ Diseño del modelo de datos
+
+ Backend con usuarios, mesas, menú y pedidos
+
+ CRUDs básicos desde Postman o Swagger
+
+ Frontend con login, vista de mesas y toma de pedidos
+
+✅ Etapa 2 - Inventario y Recetas
+ CRUD de ingredientes
+
+ Asignar recetas a productos del menú
+
+ Descontar ingredientes automáticamente al vender
+
+✅ Etapa 3 - Pagos y Facturación
+ Registro de pagos
+
+ Cálculo de totales
+
+ Tickets simples (PDF o en pantalla)
+
+✅ Etapa 4 - Reportes
+ Reporte de ventas
+
+ Platillos más vendidos
+
+ Uso de ingredientes
+
+✅ Etapa 5 - Módulo de Clientes y Reservas (opcional)
+ Registrar clientes frecuentes
+
+ Reservas de mesas por fecha y hora
