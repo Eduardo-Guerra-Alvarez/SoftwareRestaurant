@@ -5,6 +5,7 @@ import com.eduardo.softrestaurant.entity.Employee;
 import com.eduardo.softrestaurant.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +17,7 @@ public class EmployeeService {
     @Autowired
     private EmployeeRepository employeeRepository;
 
+    @Transactional
     public List<EmployeeDAO> getAllEmployees() {
         return employeeRepository.findAll()
                 .stream()
