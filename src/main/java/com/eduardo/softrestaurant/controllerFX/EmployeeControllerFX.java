@@ -3,12 +3,15 @@ package com.eduardo.softrestaurant.controllerFX;
 import com.eduardo.softrestaurant.dao.EmployeeDAO;
 import com.eduardo.softrestaurant.entity.Employee;
 import com.eduardo.softrestaurant.service.EmployeeService;
+import com.eduardo.softrestaurant.util.AlertUtil;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -18,16 +21,19 @@ import java.util.ResourceBundle;
 
 @Component
 public class EmployeeControllerFX implements Initializable {
+
+    private static final Logger logger = LoggerFactory.getLogger(EmployeeControllerFX.class);
+
     @FXML
-    private TextField name;
+    private TextField firstNameField;
     @FXML
-    private TextField lastName;
+    private TextField lastNameField;
     @FXML
-    private TextField email;
+    private TextField emailField;
     @FXML
-    private TextField phone;
+    private TextField phoneField;
     @FXML
-    private ComboBox<String> role;
+    private ComboBox<String> roleBox;
     @FXML
     private PasswordField password_hash;
     @FXML
@@ -47,7 +53,7 @@ public class EmployeeControllerFX implements Initializable {
     @FXML
     private TableColumn<EmployeeDAO, String> roleCol;
     @FXML
-    private TableColumn<EmployeeDAO, String> statusCol;
+    private TableColumn<EmployeeDAO, Boolean> statusCol;
 
     @Autowired
     private EmployeeService employeeService;
@@ -59,6 +65,7 @@ public class EmployeeControllerFX implements Initializable {
         //employeeTableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         setColumns();
         listEmployees();
+        employeeTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
     }
 
     private void setColumns() {
@@ -69,6 +76,24 @@ public class EmployeeControllerFX implements Initializable {
         phoneCol.setCellValueFactory(new PropertyValueFactory<>("phone"));
         roleCol.setCellValueFactory(new PropertyValueFactory<>("role"));
         statusCol.setCellValueFactory(new PropertyValueFactory<>("isActive"));
+        // Get status True or False and then we change to Activo or Inactivo
+        statusCol.setCellFactory(column -> new TableCell<EmployeeDAO, Boolean>() {
+            @Override
+            protected void updateItem(Boolean item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty || item == null) {
+                    setText(null);
+                } else {
+                    if (item) {
+                        setText("Activo");
+                        setStyle("-fx-text-fill: green; -fx-font-weight: bold;");
+                    } else {
+                        setText("Inactivo");
+                        setStyle("-fx-text-fill: red; -fx-font-weight: bold;");
+                    }
+                }
+            }
+        });
     }
 
     private void listEmployees() {
@@ -78,10 +103,55 @@ public class EmployeeControllerFX implements Initializable {
     }
 
     private void clearFields() {
-        name.clear();
-        lastName.clear();
-        email.clear();
-        phone.clear();
+        firstNameField.clear();
+        lastNameField.clear();
+        emailField.clear();
+        phoneField.clear();
         isActive.cancelEdit();
+    }
+
+    public void addEmployee() {
+        Employee newEmployee = new Employee();
+
+        String name = firstNameField.getText();
+        String lastName = lastNameField.getText();
+        String email = emailField.getText();
+        String phone = phoneField.getText();
+        String password = password_hash.getText();
+
+        if (name == null || name.isEmpty()) {
+            AlertUtil.showAlert(Alert.AlertType.ERROR, "error", null, "Ingresa un nombre");
+            return;
+        }
+        if (lastName == null || lastName.isEmpty()) {
+            AlertUtil.showAlert(Alert.AlertType.ERROR, "error", null, "Ingresa un Apellido");
+            return;
+        }
+        if (email == null || !email.matches("^[\\w.-]+@[\\w.-]+\\.\\w{2,}$")) {
+            AlertUtil.showAlert(Alert.AlertType.ERROR, "error", null, "Ingresa un correo valido");
+            return;
+        }
+        if (phone == null || phone.matches("\\d{10}") || phone.length() > 10) {
+            AlertUtil.showAlert(Alert.AlertType.ERROR, "error", null, "Ingresa 10 numeros");
+            return;
+        }
+        if (password == null || password.length() < 8) {
+            AlertUtil.showAlert(Alert.AlertType.ERROR, "error", null, "La contraseña debe tener 8 caracteres");
+            return;
+        }
+
+        newEmployee.setFirstName(name);
+        newEmployee.setLastName(lastName);
+        newEmployee.setEmail(email);
+        newEmployee.setPhone(phone);
+        newEmployee.setRole(roleBox.getValue());
+        newEmployee.setPassword_hash(password);
+        newEmployee.setIsActive(isActive.getValue().equals("Activo"));
+
+        employeeService.saveEmployee(newEmployee);
+        AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Exitoso", null, "Se creo el empleado exitosamente");
+        listEmployees();
+        clearFields();
+        logger.info("Empleado creado con exito");
     }
 }

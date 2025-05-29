@@ -11,14 +11,14 @@
         <VBox spacing="10">
             <Label style="-fx-font-size: 20;" text="Gestión de empleados" />
             <HBox spacing="10">
-                <TextField fx:id="nameField" promptText="Nombre" />
+                <TextField fx:id="firstNameField" promptText="Nombre" />
                 <TextField fx:id="lastNameField" promptText="Apellido" />
                 <TextField fx:id="emailField" promptText="Correo" />
                 <PasswordField fx:id="password_hash" promptText="Contraseña" />
             </HBox>
             <HBox spacing="10">
                 <TextField fx:id="phoneField" promptText="Telefono" />
-                <ComboBox fx:id="role" promptText="Rol">
+                <ComboBox fx:id="roleBox" promptText="Rol">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
                             <String fx:value="Administrador" />
@@ -35,7 +35,7 @@
                         </FXCollections>
                     </items>
                 </ComboBox>
-                <Button styleClass="buttonBlue" text="Agregar" />
+                <Button styleClass="buttonBlue" text="Agregar" onAction="#addEmployee"/>
                 <Button styleClass="buttonYellow" text="Actualizar" />
                 <Button styleClass="buttonRed" text="Eliminar" />
             </HBox>
