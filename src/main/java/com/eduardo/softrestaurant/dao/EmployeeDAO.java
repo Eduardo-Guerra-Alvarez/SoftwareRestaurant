@@ -28,6 +28,7 @@ public class EmployeeDAO {
         this.phone = employee.getPhone();
         this.role = employee.getRole();
         this.isActive = employee.getIsActive();
+        this.password_hash = employee.getPassword_hash();
         this.orders = employee.getOrders()
                 .stream()
                 .map(OrderDAO::new)

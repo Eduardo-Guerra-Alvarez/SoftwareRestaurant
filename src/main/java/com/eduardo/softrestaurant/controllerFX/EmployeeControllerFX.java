@@ -17,6 +17,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 @Component
@@ -55,6 +56,8 @@ public class EmployeeControllerFX implements Initializable {
     @FXML
     private TableColumn<EmployeeDAO, Boolean> statusCol;
 
+    private Long employeeId = null;
+
     @Autowired
     private EmployeeService employeeService;
 
@@ -62,10 +65,24 @@ public class EmployeeControllerFX implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //employeeTableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
         setColumns();
         listEmployees();
         employeeTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
+        employeeTableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+        employeeTableView.setOnMouseClicked(event -> {
+            EmployeeDAO selected = employeeTableView.getSelectionModel().getSelectedItem();
+            if(selected != null) {
+                employeeId = selected.getId();
+                firstNameField.setText(selected.getFirstName());
+                lastNameField.setText(selected.getLastName());
+                emailField.setText(selected.getEmail());
+                phoneField.setText(selected.getPhone());
+                password_hash.setText(selected.getPassword_hash());
+                roleBox.setValue(selected.getRole());
+                isActive.setValue(selected.getIsActive() ? "Activo" : "Inactivo");
+            }
+        });
+
     }
 
     private void setColumns() {
@@ -107,7 +124,9 @@ public class EmployeeControllerFX implements Initializable {
         lastNameField.clear();
         emailField.clear();
         phoneField.clear();
+        password_hash.clear();
         isActive.cancelEdit();
+        employeeId = null;
     }
 
     public void addEmployee() {
@@ -120,7 +139,7 @@ public class EmployeeControllerFX implements Initializable {
         String password = password_hash.getText();
 
         if (name == null || name.isEmpty()) {
-            AlertUtil.showAlert(Alert.AlertType.ERROR, "error", null, "Ingresa un nombre");
+            AlertUtil.showAlert(Alert.AlertType.ERROR, "error", null, "Ingresa un Nombre");
             return;
         }
         if (lastName == null || lastName.isEmpty()) {
@@ -128,10 +147,10 @@ public class EmployeeControllerFX implements Initializable {
             return;
         }
         if (email == null || !email.matches("^[\\w.-]+@[\\w.-]+\\.\\w{2,}$")) {
-            AlertUtil.showAlert(Alert.AlertType.ERROR, "error", null, "Ingresa un correo valido");
+            AlertUtil.showAlert(Alert.AlertType.ERROR, "error", null, "Ingresa un Correo valido");
             return;
         }
-        if (phone == null || phone.matches("\\d{10}") || phone.length() > 10) {
+        if (phone == null || !phone.matches("\\d{10}")) {
             AlertUtil.showAlert(Alert.AlertType.ERROR, "error", null, "Ingresa 10 numeros");
             return;
         }
@@ -148,10 +167,33 @@ public class EmployeeControllerFX implements Initializable {
         newEmployee.setPassword_hash(password);
         newEmployee.setIsActive(isActive.getValue().equals("Activo"));
 
-        employeeService.saveEmployee(newEmployee);
-        AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Exitoso", null, "Se creo el empleado exitosamente");
+        if(employeeId == null) {
+            employeeService.saveEmployee(newEmployee);
+            AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Exitoso", null, "Se creo el empleado exitosamente");
+            logger.info("Empleado creado con exito");
+        } else {
+            employeeService.updateEmployee(employeeId, newEmployee);
+            employeeId = null;
+            AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Exitoso", null, "Se actualizo el empleado exitosamente");
+            logger.info("Empleado actualizado con exito");
+        }
         listEmployees();
         clearFields();
-        logger.info("Empleado creado con exito");
+    }
+
+    public void deleteEmployee() {
+        Alert confirmAlert = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmAlert.setTitle("Confirmacion");
+        confirmAlert.setHeaderText("Estas seguro de eliminar a este empleado?");
+        confirmAlert.setContentText("Empleado: " + firstNameField.getText());
+
+        Optional<ButtonType> result = confirmAlert.showAndWait();
+        if(result.isPresent() && result.get() == ButtonType.OK) {
+            employeeService.removeEmployee(employeeId);
+            listEmployees();
+            AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Exitoso", null, "Empleado Eliminado");
+        } else {
+            AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Cancelado", null, "Eliminacion cancelada");
+        }
     }
 }
