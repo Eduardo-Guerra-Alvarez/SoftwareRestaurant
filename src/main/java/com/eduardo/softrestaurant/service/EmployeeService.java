@@ -4,6 +4,7 @@ import com.eduardo.softrestaurant.dao.EmployeeDAO;
 import com.eduardo.softrestaurant.entity.Employee;
 import com.eduardo.softrestaurant.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +31,7 @@ public class EmployeeService {
     }
 
     public Employee saveEmployee(Employee employee) {
+        employee.setPassword_hash(encodePassword(employee.getPassword_hash()));
         return employeeRepository.save(employee);
     }
 
@@ -48,10 +50,15 @@ public class EmployeeService {
                     employee.setFirstName(updateData.getFirstName());
                     employee.setLastName(updateData.getLastName());
                     employee.setRole(updateData.getRole());
-                    employee.setPassword_hash(updateData.getPassword_hash());
+                    employee.setPassword_hash(encodePassword(updateData.getPassword_hash()));
                     employee.setIsActive(updateData.getIsActive());
                     return employeeRepository.save(employee);
                 }).orElseThrow(() -> new RuntimeException("Employee not found"));
 
+    }
+
+    private String encodePassword(String password) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        return encoder.encode(password);
     }
 }

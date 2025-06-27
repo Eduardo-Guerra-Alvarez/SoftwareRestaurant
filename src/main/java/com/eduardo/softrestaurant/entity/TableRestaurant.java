@@ -19,7 +19,6 @@ public class TableRestaurant {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Integer table_number;
     private Integer capacity;
     private String status = "available"; // available, occupied, reserved
 

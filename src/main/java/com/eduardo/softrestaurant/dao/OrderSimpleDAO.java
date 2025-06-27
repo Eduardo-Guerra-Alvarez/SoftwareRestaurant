@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Setter
 public class OrderSimpleDAO {
     private Long id;
-    private Integer tableRestaurant_number;
+    private Long tableRestaurant_number;
     private String employee_name;
     private OrderStatus status; // pending, in_progress, delivered, canceled
     private LocalDateTime created_at;
@@ -23,6 +23,6 @@ public class OrderSimpleDAO {
         this.created_at = order.getCreated_at();
         this.total = order.getTotal();
         this.employee_name = order.getEmployee().getFirstName();
-        this.tableRestaurant_number = order.getTableRestaurant().getTable_number();
+        this.tableRestaurant_number = order.getTableRestaurant().getId();
     }
 }

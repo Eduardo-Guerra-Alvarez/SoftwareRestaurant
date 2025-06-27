@@ -15,9 +15,10 @@
                 <TextField fx:id="lastNameField" promptText="Apellido" />
                 <TextField fx:id="emailField" promptText="Correo" />
                 <PasswordField fx:id="password_hash" promptText="Contraseña" />
+                <CheckBox fx:id="showPassword" />
             </HBox>
             <HBox spacing="10">
-                <TextField fx:id="phoneField" promptText="Telefono" />
+                <TextField fx:id="phoneField" promptText="Teléfono" />
                 <ComboBox fx:id="roleBox" promptText="Rol">
                     <items>
                         <FXCollections fx:factory="observableArrayList">
@@ -35,9 +36,9 @@
                         </FXCollections>
                     </items>
                 </ComboBox>
-                <Button styleClass="buttonBlue" text="Agregar" onAction="#addEmployee"/>
-                <Button styleClass="buttonYellow" text="Actualizar" onAction="#addEmployee"/>
-                <Button styleClass="buttonRed" text="Eliminar" onAction="#deleteEmployee"/>
+                <Button onAction="#addEmployee" styleClass="buttonBlue" text="Agregar" />
+                <Button onAction="#addEmployee" styleClass="buttonYellow" text="Actualizar" />
+                <Button onAction="#deleteEmployee" styleClass="buttonRed" text="Eliminar" />
             </HBox>
          <padding>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
@@ -51,7 +52,7 @@
                 <TableColumn fx:id="firstNameCol" text="Nombre" />
                 <TableColumn fx:id="lastNameCol" text="Apellido" />
                 <TableColumn fx:id="emailCol" text="Correo" />
-                <TableColumn fx:id="phoneCol" text="Telefono" />
+                <TableColumn fx:id="phoneCol" text="Teléfono" />
                 <TableColumn fx:id="roleCol" text="Rol" />
                 <TableColumn fx:id="statusCol" text="Estatus" />
             </columns>

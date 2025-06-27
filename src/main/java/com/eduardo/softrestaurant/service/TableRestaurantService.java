@@ -32,7 +32,6 @@ public class TableRestaurantService {
         return tableRestaurantRepository.findById(id)
                 .map(tableRestaurantUpdated -> {
                     tableRestaurantUpdated.setCapacity(tableRestaurant.getCapacity());
-                    tableRestaurantUpdated.setTable_number(tableRestaurant.getTable_number());
                     tableRestaurantUpdated.setStatus(tableRestaurant.getStatus());
                     return tableRestaurantRepository.save(tableRestaurantUpdated);
                 })

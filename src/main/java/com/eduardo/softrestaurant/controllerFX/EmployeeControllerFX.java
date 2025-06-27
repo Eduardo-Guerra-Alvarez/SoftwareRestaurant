@@ -77,7 +77,6 @@ public class EmployeeControllerFX implements Initializable {
                 lastNameField.setText(selected.getLastName());
                 emailField.setText(selected.getEmail());
                 phoneField.setText(selected.getPhone());
-                password_hash.setText(selected.getPassword_hash());
                 roleBox.setValue(selected.getRole());
                 isActive.setValue(selected.getIsActive() ? "Activo" : "Inactivo");
             }
@@ -154,9 +153,8 @@ public class EmployeeControllerFX implements Initializable {
             AlertUtil.showAlert(Alert.AlertType.ERROR, "error", null, "Ingresa 10 numeros");
             return;
         }
-        if (password == null || password.length() < 8) {
-            AlertUtil.showAlert(Alert.AlertType.ERROR, "error", null, "La contraseña debe tener 8 caracteres");
-            return;
+        if (password != null) {
+            newEmployee.setPassword_hash(password);
         }
 
         newEmployee.setFirstName(name);
@@ -164,7 +162,6 @@ public class EmployeeControllerFX implements Initializable {
         newEmployee.setEmail(email);
         newEmployee.setPhone(phone);
         newEmployee.setRole(roleBox.getValue());
-        newEmployee.setPassword_hash(password);
         newEmployee.setIsActive(isActive.getValue().equals("Activo"));
 
         if(employeeId == null) {

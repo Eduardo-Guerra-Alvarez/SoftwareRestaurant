@@ -16,7 +16,7 @@ import java.util.stream.Collectors;
 @Setter
 public class OrderDAO {
     private Long id;
-    private Integer tableRestaurant_number;
+    private Long tableRestaurant_number;
     private String employee_name;
     private OrderStatus status; // pending, in_progress, delivered, canceled
     private LocalDateTime created_at;
@@ -29,7 +29,7 @@ public class OrderDAO {
         this.created_at = order.getCreated_at();
         this.total = order.getTotal();
         this.employee_name = order.getEmployee().getFirstName();
-        this.tableRestaurant_number = order.getTableRestaurant().getTable_number();
+        this.tableRestaurant_number = order.getTableRestaurant().getId();
         this.orderDetails = Optional.ofNullable(order.getOrderDetails())
                 .orElse(Collections.emptyList())
                 .stream()
