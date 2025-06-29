@@ -1,5 +1,6 @@
 package com.eduardo.softrestaurant.controller;
 
+import com.eduardo.softrestaurant.dao.TableDAO;
 import com.eduardo.softrestaurant.entity.TableRestaurant;
 import com.eduardo.softrestaurant.service.TableRestaurantService;
 import jakarta.persistence.Table;
@@ -17,7 +18,7 @@ public class TableRestaurantController {
     private TableRestaurantService tableRestaurantService;
 
     @GetMapping
-    public ResponseEntity<List<TableRestaurant>> getTables() {
+    public ResponseEntity<List<TableDAO>> getTables() {
         return ResponseEntity.ok(tableRestaurantService.getAllTables());
     }
 
