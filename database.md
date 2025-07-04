@@ -1,6 +1,6 @@
 -- Users (employees)
-CREATE TABLE users (
-    user_id SERIAL PRIMARY KEY,
+CREATE TABLE employees (
+    id SERIAL PRIMARY KEY,
     first_name VARCHAR(100) NOT NULL,
     last_name VARCHAR(100),
     email VARCHAR(100) UNIQUE NOT NULL,
@@ -11,9 +11,8 @@ CREATE TABLE users (
 );
 
 -- Tables (restaurant tables)
-CREATE TABLE tables (
+CREATE TABLE table_restaurant (
     table_id SERIAL PRIMARY KEY,
-    table_number INT NOT NULL UNIQUE,
     capacity INT NOT NULL,
     status VARCHAR(20) DEFAULT 'available' -- available, occupied, reserved
 );
@@ -30,10 +29,9 @@ CREATE TABLE menu (
 
 -- Orders
 CREATE TABLE orders (
-    order_id SERIAL PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     table_id INT REFERENCES tables(table_id),
-    user_id INT REFERENCES users(user_id),
-    client_id INT REFERENCES clients(client_id),
+    employee_id INT REFERENCES users(user_id),
     status VARCHAR(30) DEFAULT 'pending', -- pending, in_progress, delivered, canceled
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     total NUMERIC(10, 2) DEFAULT 0.0
@@ -41,7 +39,7 @@ CREATE TABLE orders (
 
 -- Order details (what was ordered)
 CREATE TABLE order_details (
-    detail_id SERIAL PRIMARY KEY,
+    id SERIAL PRIMARY KEY,
     order_id INT REFERENCES orders(order_id) ON DELETE CASCADE,
     menu_id INT REFERENCES menu(menu_id),
     quantity INT NOT NULL,
