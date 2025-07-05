@@ -20,8 +20,8 @@ public class TableRestaurant {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Integer capacity;
-    private String status = "available"; // available, occupied, reserved
+    private String status = "Disponible"; // available, occupied, reserved
 
-    @OneToMany(mappedBy = "tableRestaurant")
+    @OneToMany(mappedBy = "tableRestaurant", fetch = FetchType.LAZY)
     private List<Order> orders;
 }

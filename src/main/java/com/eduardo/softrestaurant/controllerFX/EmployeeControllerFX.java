@@ -67,8 +67,13 @@ public class EmployeeControllerFX implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
         setColumns();
         listEmployees();
+        onClickTable();
         employeeTableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY_ALL_COLUMNS);
         employeeTableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
+
+    }
+
+    private void onClickTable() {
         employeeTableView.setOnMouseClicked(event -> {
             EmployeeDAO selected = employeeTableView.getSelectionModel().getSelectedItem();
             if(selected != null) {
@@ -81,7 +86,6 @@ public class EmployeeControllerFX implements Initializable {
                 isActive.setValue(selected.getIsActive() ? "Activo" : "Inactivo");
             }
         });
-
     }
 
     private void setColumns() {
@@ -188,6 +192,7 @@ public class EmployeeControllerFX implements Initializable {
         if(result.isPresent() && result.get() == ButtonType.OK) {
             employeeService.removeEmployee(employeeId);
             listEmployees();
+            employeeId = null;
             AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Exitoso", null, "Empleado Eliminado");
         } else {
             AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Cancelado", null, "Eliminacion cancelada");

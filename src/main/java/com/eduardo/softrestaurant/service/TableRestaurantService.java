@@ -1,13 +1,16 @@
 package com.eduardo.softrestaurant.service;
 
+import com.eduardo.softrestaurant.dao.TableDAO;
 import com.eduardo.softrestaurant.entity.TableRestaurant;
 import com.eduardo.softrestaurant.repository.TableRestaurantRepository;
 import jakarta.persistence.Table;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TableRestaurantService {
@@ -15,8 +18,11 @@ public class TableRestaurantService {
     @Autowired
     private TableRestaurantRepository tableRestaurantRepository;
 
-    public List<TableRestaurant> getAllTables() {
-        return tableRestaurantRepository.findAll();
+    @Transactional
+    public List<TableDAO> getAllTables() {
+        return tableRestaurantRepository.findAll()
+                .stream()
+                .map(TableDAO::new).collect(Collectors.toList());
     }
 
     public TableRestaurant getTableById(Long id) {
