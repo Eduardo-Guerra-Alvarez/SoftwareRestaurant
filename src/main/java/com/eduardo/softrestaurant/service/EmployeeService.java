@@ -30,6 +30,10 @@ public class EmployeeService {
                 .orElseThrow(() -> new RuntimeException("Employee not found"));
     }
 
+    public Optional<Employee> getEmployeeByEmail(String email) {
+        return employeeRepository.findByEmail(email);
+    }
+
     public Employee saveEmployee(Employee employee) {
         employee.setPassword_hash(encodePassword(employee.getPassword_hash()));
         return employeeRepository.save(employee);
