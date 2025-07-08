@@ -27,6 +27,6 @@ public class Employee {
     private String password_hash;
     private Boolean isActive = true;
 
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Order> orders;
 }

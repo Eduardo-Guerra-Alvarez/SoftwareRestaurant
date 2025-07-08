@@ -22,7 +22,7 @@ public class SoftwareRestaurantFX extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/login.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/main.fxml"));
         loader.setControllerFactory(applicationContext::getBean);
         Scene scene = new Scene(loader.load());
 

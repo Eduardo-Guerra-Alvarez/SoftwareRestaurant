@@ -6,7 +6,11 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<BorderPane stylesheets="@../css/employee.css" xmlns="http://javafx.com/javafx/17.0.12" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.eduardo.softrestaurant.controllerFX.EmployeeControllerFX">
+<BorderPane
+        stylesheets="@../css/employee.css"
+        xmlns="http://javafx.com/javafx/17.0.12"
+        xmlns:fx="http://javafx.com/fxml/1"
+        fx:controller="com.eduardo.softrestaurant.controllerFX.EmployeeControllerFX">
     <top>
         <VBox spacing="10">
             <Label style="-fx-font-size: 20;" text="Gestión de empleados" />

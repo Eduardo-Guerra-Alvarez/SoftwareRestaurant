@@ -157,8 +157,13 @@ public class EmployeeControllerFX implements Initializable {
             AlertUtil.showAlert(Alert.AlertType.ERROR, "error", null, "Ingresa 10 numeros");
             return;
         }
-        if (password != null) {
-            newEmployee.setPassword_hash(password);
+        boolean existEmail = employeesList.stream()
+                        .noneMatch(employee -> employee.getEmail().equalsIgnoreCase(email));
+
+        if(existEmail) {
+            AlertUtil.showAlert(Alert.AlertType.ERROR, "error", null, "Correo ya registrado");
+            return;
+            
         }
 
         newEmployee.setFirstName(name);
@@ -167,16 +172,16 @@ public class EmployeeControllerFX implements Initializable {
         newEmployee.setPhone(phone);
         newEmployee.setRole(roleBox.getValue());
         newEmployee.setIsActive(isActive.getValue().equals("Activo"));
+        newEmployee.setPassword_hash(password);
 
         if(employeeId == null) {
             employeeService.saveEmployee(newEmployee);
             AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Exitoso", null, "Se creo el empleado exitosamente");
-            logger.info("Empleado creado con exito");
+            logger.info("Empleado creado con exito: " + newEmployee.toString());
         } else {
             employeeService.updateEmployee(employeeId, newEmployee);
-            employeeId = null;
             AlertUtil.showAlert(Alert.AlertType.INFORMATION, "Exitoso", null, "Se actualizo el empleado exitosamente");
-            logger.info("Empleado actualizado con exito");
+            logger.info("Empleado actualizado con exito: " + newEmployee.toString());
         }
         listEmployees();
         clearFields();

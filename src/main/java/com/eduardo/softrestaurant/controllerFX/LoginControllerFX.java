@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
@@ -36,6 +37,9 @@ public class LoginControllerFX implements Initializable {
     @Autowired
     private EmployeeService employeeService;
 
+    @Autowired
+    private ApplicationContext context;
+
     private static final Logger logger = LoggerFactory.getLogger(LoginControllerFX.class);
 
     @Override
@@ -48,11 +52,11 @@ public class LoginControllerFX implements Initializable {
         String password = passwordField.getText();
 
         Optional<Employee> employee = employeeService.getEmployeeByEmail(email);
-        logger.info(String.valueOf(employee.isPresent()));
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
         if(employee.isPresent() && encoder.matches(password, employee.get().getPassword_hash())) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/main.fxml"));
+            loader.setControllerFactory(context::getBean); // this is used to communicate with Springboot
             Parent root = loader.load();
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
