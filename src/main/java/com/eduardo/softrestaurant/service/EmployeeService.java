@@ -34,9 +34,9 @@ public class EmployeeService {
         return employeeRepository.findByEmail(email);
     }
 
-    public Employee saveEmployee(Employee employee) {
+    public EmployeeDAO saveEmployee(Employee employee) {
         employee.setPassword_hash(encodePassword(employee.getPassword_hash()));
-        return employeeRepository.save(employee);
+        return new EmployeeDAO(employeeRepository.save(employee));
     }
 
     public void removeEmployee(Long id) {
@@ -51,14 +51,13 @@ public class EmployeeService {
         return employeeRepository.findById(id)
                 .map(employee -> {
                     employee.setFirstName(updateData.getFirstName());
-                    employee.setFirstName(updateData.getFirstName());
                     employee.setLastName(updateData.getLastName());
+                    employee.setEmail(updateData.getEmail());
                     employee.setRole(updateData.getRole());
-                    employee.setPassword_hash(encodePassword(updateData.getPassword_hash()));
+                    employee.setPassword_hash(updateData.getPassword_hash());
                     employee.setIsActive(updateData.getIsActive());
                     return employeeRepository.save(employee);
                 }).orElseThrow(() -> new RuntimeException("Employee not found"));
-
     }
 
     private String encodePassword(String password) {

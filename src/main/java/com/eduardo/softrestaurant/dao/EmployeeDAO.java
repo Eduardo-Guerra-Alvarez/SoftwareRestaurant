@@ -29,9 +29,9 @@ public class EmployeeDAO {
         this.role = employee.getRole();
         this.isActive = employee.getIsActive();
         this.password_hash = employee.getPassword_hash();
-        this.orders = employee.getOrders()
+        /*this.orders = employee.getOrders()
                 .stream()
                 .map(OrderDAO::new)
-                .collect(Collectors.toList());
+                .collect(Collectors.toList());*/
     }
 }

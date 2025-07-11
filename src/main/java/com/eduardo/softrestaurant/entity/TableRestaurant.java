@@ -22,6 +22,6 @@ public class TableRestaurant {
     private Integer capacity;
     private String status = "Disponible"; // available, occupied, reserved
 
-    @OneToMany(mappedBy = "tableRestaurant", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "tableRestaurant")
     private List<Order> orders;
 }

@@ -29,13 +29,13 @@ public class EmployeeController {
 
     @Operation(summary = "Create new Employee")
     @PostMapping
-    public Employee createEmployee(@RequestBody Employee employee) {
+    public EmployeeDAO createEmployee(@RequestBody Employee employee) {
         return employeeService.saveEmployee(employee);
     }
 
     @PutMapping("/{id}")
-    public Employee updateEmployee(@PathVariable Long id, @RequestBody Employee employee) {
-        return employeeService.updateEmployee(id, employee);
+    public EmployeeDAO updateEmployee(@PathVariable Long id, @RequestBody Employee employee) {
+        return new EmployeeDAO(employeeService.updateEmployee(id, employee));
     }
 
     public String deleteEmployee(@PathVariable Long id) {

@@ -39,6 +39,6 @@ public class Order {
     private LocalDateTime created_at;
     private Float total = 0.0F;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order", fetch = FetchType.LAZY)
     private List<OrderDetails> orderDetails;
 }
