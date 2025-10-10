@@ -38,6 +38,7 @@ public class EmployeeController {
         return new EmployeeDAO(employeeService.updateEmployee(id, employee));
     }
 
+    @DeleteMapping("/{id}")
     public String deleteEmployee(@PathVariable Long id) {
         employeeService.removeEmployee(id);
         return "Employee deleted";

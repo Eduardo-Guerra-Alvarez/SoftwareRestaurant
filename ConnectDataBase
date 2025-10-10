@@ -1,0 +1,8 @@
+Connection with the database
+
+First install Docker
+Download the container with
+docker pull mysql
+
+Create the image with
+docker run --name test-mysql -e MYSQL_ROOT_PASSWORD=root -p 3306:3306 -d mysql
