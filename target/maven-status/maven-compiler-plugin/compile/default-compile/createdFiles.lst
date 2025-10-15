@@ -21,8 +21,10 @@ com\eduardo\softrestaurant\entity\Employee.class
 com\eduardo\softrestaurant\dao\OrderDAO.class
 com\eduardo\softrestaurant\entity\Order$OrderBuilder.class
 com\eduardo\softrestaurant\entity\OrderDetails$OrderDetailsBuilder.class
+com\eduardo\softrestaurant\controller\AuthController.class
 com\eduardo\softrestaurant\service\OrderDetailsService.class
 com\eduardo\softrestaurant\dao\TableDAO.class
+com\eduardo\softrestaurant\config\JwtUtil.class
 com\eduardo\softrestaurant\dao\CreateOrderRequestDAO.class
 com\eduardo\softrestaurant\dao\OrderSimpleDAO.class
 com\eduardo\softrestaurant\config\SecurityConfig.class
