@@ -22,12 +22,17 @@ public class AuthController {
     @Autowired
     private EmployeeService employeeService;
 
+    // implementation of Login
     @PostMapping("/login")
     public Map<String, Object> login(@RequestBody Map<String, String> loginData) {
+        // get the data from body
         String email = loginData.get("email");
         String password = loginData.get("password");
 
+        // check if employee exist
         Optional<Employee> employee = employeeService.getEmployeeByEmail(email);
+        if(employee.isEmpty()) return Map.of("Error", "Invalid credencials");
+
         String emailEmployee = employee.get().getEmail();
         String passwordEmployee = employee.get().getPassword_hash();
         Long employeeId = employee.get().getId();
