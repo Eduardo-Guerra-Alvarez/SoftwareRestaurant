@@ -54,6 +54,10 @@ public class OrderService {
         return new OrderDAO(order);
     }
 
+    public List<OrderSimpleDAO> getOrderByTable(Long tableId) {
+        return orderRepository.findByTableRestaurant_number(tableId);
+    }
+
     public void deleteById(Long id) {
         orderRepository.findById(id)
                         .ifPresentOrElse(
