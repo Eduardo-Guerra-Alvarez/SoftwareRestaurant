@@ -5,6 +5,7 @@ import com.eduardo.softrestaurant.dao.OrderDAO;
 import com.eduardo.softrestaurant.dao.OrderSimpleDAO;
 import com.eduardo.softrestaurant.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +21,11 @@ public class OrderController {
     @GetMapping
     public List<OrderSimpleDAO> getOrders() {
         return orderService.getAllOrder();
+    }
+
+    @GetMapping("/table/{id}")
+    public ResponseEntity<List<OrderSimpleDAO>> getOrdersByTable(@RequestParam Long tableId) {
+        return ResponseEntity.ok(orderService.getOrderByTable(tableId));
     }
 
     @GetMapping("/{id}")
