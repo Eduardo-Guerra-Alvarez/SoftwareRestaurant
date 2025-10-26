@@ -1,5 +1,6 @@
 package com.eduardo.softrestaurant.service;
 
+import com.eduardo.softrestaurant.OrderStatus;
 import com.eduardo.softrestaurant.dao.CreateOrderRequestDAO;
 import com.eduardo.softrestaurant.dao.OrderDAO;
 import com.eduardo.softrestaurant.dao.OrderSimpleDAO;
@@ -54,8 +55,16 @@ public class OrderService {
         return new OrderDAO(order);
     }
 
-    public List<OrderSimpleDAO> getOrderByTable(Long tableId) {
-        return orderRepository.findByTableRestaurant_number(tableId);
+    public OrderDAO getOrderByTableAndStatus(Long tableId, OrderStatus status) {
+        Order order = orderRepository.findByTableRestaurant_IdAndStatus(tableId, status)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+        return new OrderDAO(order);
+    }
+
+    public List<OrderDAO> getOrderByTable(Long tableId) {
+        return orderRepository.findByTableRestaurant_Id(tableId)
+                .stream()
+                .map(OrderDAO::new).collect(Collectors.toList());
     }
 
     public void deleteById(Long id) {
