@@ -38,6 +38,13 @@ public class OrderDetailsService {
         return new OrderDetailsDAO(orderDetail);
     }
 
+    public List<OrderDetailsDAO> getAllOrdersDetailsByOrder(Long id) {
+        return orderDetailsRepository.findByOrder_Id(id)
+                .stream()
+                .map(OrderDetailsDAO::new)
+                .collect(Collectors.toList());
+    }
+
     public OrderDAO createOrderDetails(Long orderId, Long menuId, OrderDetails orderDetails) {
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Order not found"));
@@ -59,12 +66,8 @@ public class OrderDetailsService {
     }
 
     public void deleteOrderDetails(Long id) {
-        OrderDetails orderDetails = orderDetailsRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("OrderDetail not found"));
-
-        Order order = orderRepository.findById(orderDetails.getOrder().getId())
-                .orElseThrow(() -> new RuntimeException("Order not found"));
-        order.getOrderDetails().remove(orderDetails);
-        orderRepository.save(order);
+        orderDetailsRepository.findById(id)
+                .ifPresentOrElse(orderDetailsRepository::delete,
+                        () -> {throw new RuntimeException("OrderDetail not found");});
     }
 }
