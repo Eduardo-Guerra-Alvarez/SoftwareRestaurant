@@ -5,6 +5,7 @@ import com.eduardo.softrestaurant.dao.OrderDetailsDAO;
 import com.eduardo.softrestaurant.entity.OrderDetails;
 import com.eduardo.softrestaurant.service.OrderDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,6 +21,11 @@ public class OrderDetailsController {
         return orderDetailsService.getAllOrdersDetails();
     }
 
+    @GetMapping("/order/{id}")
+    public List<OrderDetailsDAO> getOrderDetailsByOrder(@PathVariable Long id) {
+        return orderDetailsService.getAllOrdersDetailsByOrder(id);
+    }
+
     @GetMapping("/{id}")
     public OrderDetailsDAO getOrderDetailById(@PathVariable Long id) {
         return orderDetailsService.getOrderDetailsById(id);
@@ -30,7 +36,7 @@ public class OrderDetailsController {
         return orderDetailsService.createOrderDetails(orderId, menuId, orderDetails);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public String deleteOrderDetails(@PathVariable Long id) {
         orderDetailsService.deleteOrderDetails(id);
         return "OrderDetail deleted";
