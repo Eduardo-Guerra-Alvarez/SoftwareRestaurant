@@ -9,6 +9,7 @@ com\eduardo\softrestaurant\entity\OrderDetails.class
 com\eduardo\softrestaurant\entity\TableRestaurant$TableRestaurantBuilder.class
 com\eduardo\softrestaurant\controller\OrderController.class
 com\eduardo\softrestaurant\OrderStatus.class
+com\eduardo\softrestaurant\dao\MenuDAO.class
 com\eduardo\softrestaurant\entity\Menu$MenuBuilder.class
 com\eduardo\softrestaurant\entity\Order.class
 com\eduardo\softrestaurant\controller\OrderDetailsController.class

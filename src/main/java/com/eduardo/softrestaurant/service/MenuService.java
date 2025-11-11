@@ -1,24 +1,29 @@
 package com.eduardo.softrestaurant.service;
 
+import com.eduardo.softrestaurant.dao.MenuDAO;
 import com.eduardo.softrestaurant.entity.Menu;
 import com.eduardo.softrestaurant.repository.MenuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MenuService {
     @Autowired
     private MenuRepository menuRepository;
 
-    public List<Menu> getAllMenus() {
-        return menuRepository.findAll();
+    public List<MenuDAO> getAllMenus() {
+        return menuRepository.findAll().stream()
+                .map(MenuDAO::new)
+                .collect(Collectors.toList());
     }
 
-    public Menu getMenu(Long id) {
-        return menuRepository.findById(id)
+    public MenuDAO getMenu(Long id) {
+        Menu menu = menuRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Menu not found"));
+        return new MenuDAO(menu);
     }
 
     public Menu createMenu(Menu menu) {
