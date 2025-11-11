@@ -1,5 +1,6 @@
 package com.eduardo.softrestaurant.controller;
 
+import com.eduardo.softrestaurant.dao.MenuDAO;
 import com.eduardo.softrestaurant.entity.Menu;
 import com.eduardo.softrestaurant.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +18,12 @@ public class MenuController {
     private MenuService menuService;
 
     @GetMapping
-    public ResponseEntity<List<Menu>> getMenus() {
+    public ResponseEntity<List<MenuDAO>> getMenus() {
         return ResponseEntity.ok(menuService.getAllMenus());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Menu> getMenu(@PathVariable Long id) {
+    public ResponseEntity<MenuDAO> getMenu(@PathVariable Long id) {
         return ResponseEntity.ok(menuService.getMenu(id));
     }
 

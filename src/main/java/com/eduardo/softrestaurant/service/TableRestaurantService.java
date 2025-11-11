@@ -34,12 +34,13 @@ public class TableRestaurantService {
         return tableRestaurantRepository.save(tableRestaurant);
     }
 
-    public TableRestaurant updateTable(Long id, TableRestaurant tableRestaurant) {
+    public TableDAO updateTable(Long id, TableRestaurant tableRestaurant) {
         return tableRestaurantRepository.findById(id)
                 .map(tableRestaurantUpdated -> {
                     tableRestaurantUpdated.setCapacity(tableRestaurant.getCapacity());
                     tableRestaurantUpdated.setStatus(tableRestaurant.getStatus());
-                    return tableRestaurantRepository.save(tableRestaurantUpdated);
+                    tableRestaurantRepository.save(tableRestaurantUpdated);
+                    return new TableDAO(tableRestaurantUpdated);
                 })
                 .orElseThrow(() -> new RuntimeException("Tabled not found"));
     }

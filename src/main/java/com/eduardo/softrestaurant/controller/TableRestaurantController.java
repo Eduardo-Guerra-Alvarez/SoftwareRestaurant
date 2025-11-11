@@ -34,7 +34,7 @@ public class TableRestaurantController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<TableRestaurant> updateTable(@PathVariable Long id, @RequestBody TableRestaurant tableRestaurant) {
+    public ResponseEntity<TableDAO> updateTable(@PathVariable Long id, @RequestBody TableRestaurant tableRestaurant) {
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(tableRestaurantService.updateTable(id, tableRestaurant));
     }
