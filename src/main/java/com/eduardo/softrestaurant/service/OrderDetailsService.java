@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -65,7 +66,12 @@ public class OrderDetailsService {
         return new OrderDAO(order);
     }
 
-    public void deleteOrderDetails(Long id) {
+    public void deleteOrderDetails(Long id, Long orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+        order.setTotal(order.getTotal() - getOrderDetailsById(id).getSubtotal());
+        orderRepository.save(order);
+
         orderDetailsRepository.findById(id)
                 .ifPresentOrElse(orderDetailsRepository::delete,
                         () -> {throw new RuntimeException("OrderDetail not found");});
