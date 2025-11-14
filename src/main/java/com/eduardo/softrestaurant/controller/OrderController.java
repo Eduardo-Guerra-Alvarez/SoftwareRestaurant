@@ -7,6 +7,7 @@ import com.eduardo.softrestaurant.dao.OrderSimpleDAO;
 import com.eduardo.softrestaurant.entity.Order;
 import com.eduardo.softrestaurant.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,6 +53,8 @@ public class OrderController {
         return orderService.createOrder(orderRequestDAO);
     }
 
-
-
+    @GetMapping("closeOrder/{id}/table/{tableId}")
+    public ResponseEntity<OrderDAO> closeOrder(@PathVariable Long id, @PathVariable Long tableId) {
+        return ResponseEntity.ok(orderService.closeOrder(id, tableId));
+    }
 }

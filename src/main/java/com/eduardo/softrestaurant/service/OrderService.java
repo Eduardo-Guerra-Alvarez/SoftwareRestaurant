@@ -76,4 +76,18 @@ public class OrderService {
                                 }
                         );
     }
+
+    public OrderDAO closeOrder(Long orderId, Long tableId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+
+        TableRestaurant table = tableRestaurantRepository.findById(tableId)
+                        .orElseThrow(() -> new RuntimeException("Table not found"));
+
+        order.setStatus(OrderStatus.COMPLETED);
+        orderRepository.save(order);
+        table.setStatus("Disponible");
+        tableRestaurantRepository.save(table);
+        return new OrderDAO(order);
+    }
 }
