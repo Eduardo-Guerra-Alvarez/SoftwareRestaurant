@@ -36,9 +36,9 @@ public class OrderDetailsController {
         return orderDetailsService.createOrderDetails(orderId, menuId, orderDetails);
     }
 
-    @DeleteMapping("/{id}")
-    public String deleteOrderDetails(@PathVariable Long id) {
-        orderDetailsService.deleteOrderDetails(id);
+    @DeleteMapping("/{id}/order/{orderId}")
+    public String deleteOrderDetails(@PathVariable Long id, @PathVariable Long orderId) {
+        orderDetailsService.deleteOrderDetails(id, orderId);
         return "OrderDetail deleted";
     }
 
